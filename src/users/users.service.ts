@@ -13,6 +13,12 @@ export class UsersService {
     return db.query.users.findFirst({ where: eq(users.id, id) });
   }
 
+  async findByVerificationToken(token: string) {
+    return db.query.users.findFirst({
+      where: eq(users.verificationToken, token),
+    });
+  }
+
   async create(data: NewUser) {
     const [user] = await db.insert(users).values(data).returning();
     return user;
