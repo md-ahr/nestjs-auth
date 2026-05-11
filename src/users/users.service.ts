@@ -4,7 +4,7 @@ import { db } from 'src/db';
 import { type NewUser, users } from 'src/db/schema';
 
 @Injectable()
-export class UserService {
+export class UsersService {
   async findByEmail(email: string) {
     return db.query.users.findFirst({ where: eq(users.email, email) });
   }
