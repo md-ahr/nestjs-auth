@@ -40,7 +40,7 @@ async function bootstrap() {
   await app.listen(port);
 
   console.log(`Application running on http://localhost:${port}/api`);
-  console.log(`Swagger docs at http://localhost:${port}/api`);
+  console.log(`Swagger docs at http://localhost:${port}/api/docs`);
 }
 
 bootstrap();
