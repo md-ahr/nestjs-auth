@@ -19,9 +19,9 @@ import type { Request, Response } from 'express';
 import { CurrentUser } from 'src/common/decorators/current-user.decorator';
 import { Public } from 'src/common/decorators/public.decorator';
 import type { User } from 'src/db/schema';
-import type { AuthService } from './auth.service';
-import type { LoginDto } from './dto/login.dto';
-import type { RegisterDto } from './dto/register.dto';
+import { AuthService } from './auth.service';
+import { LoginDto } from './dto/login.dto';
+import { RegisterDto } from './dto/register.dto';
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -70,7 +70,9 @@ export class AuthController {
     @Res({ passthrough: true }) res: Response,
   ) {
     const cookies = req.cookies as Record<string, string>;
-    const refreshToken = cookies?.refresh_token;
+    const refreshToken = cookies?.refreshToken;
+    console.log(req.cookies);
+
     return this.authService.refresh(refreshToken, res);
   }
 

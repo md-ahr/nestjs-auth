@@ -1,18 +1,18 @@
 import crypto from 'node:crypto';
 import type { Response } from 'express';
-import type { ConfigService } from '@nestjs/config';
+import { ConfigService } from '@nestjs/config';
 import {
   BadRequestException,
   ConflictException,
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
-import type { JwtService } from '@nestjs/jwt';
+import { JwtService } from '@nestjs/jwt';
 import bcrypt from 'bcryptjs';
-import type { EmailService } from './email.service';
+import { EmailService } from './email.service';
 import type { LoginDto } from './dto/login.dto';
 import type { RegisterDto } from './dto/register.dto';
-import type { UsersService } from './../users/users.service';
+import { UsersService } from '../users/users.service';
 import type { User } from 'src/db/schema';
 
 @Injectable()
@@ -46,7 +46,10 @@ export class AuthService {
       verificationTokenExpiresAt,
     });
 
-    void this.emailService.sendVerificationEmail(user.email, verificationToken);
+    await this.emailService.sendVerificationEmail(
+      user.email,
+      verificationToken,
+    );
 
     return {
       message:
