@@ -168,7 +168,12 @@ export class AuthService {
 
   async logout(userId: string, res: Response) {
     await this.usersService.update(userId, { refreshTokenHash: null });
-    res.clearCookie('refresh_token');
+    res.clearCookie('refreshToken', {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      path: '/',
+    });
     return { message: 'Logged out successfully' };
   }
 

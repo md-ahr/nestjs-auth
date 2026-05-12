@@ -75,8 +75,6 @@ export class AuthController {
   ) {
     const cookies = req.cookies as Record<string, string>;
     const refreshToken = cookies?.refreshToken;
-    console.log(req.cookies);
-
     return this.authService.refresh(refreshToken, res);
   }
 
