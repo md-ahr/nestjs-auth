@@ -70,6 +70,15 @@ pnpm run build
 pnpm run start:prod
 ```
 
+## Deploy on Vercel
+
+Vercel runs this API as a serverless function. If you see `500` / `FUNCTION_INVOCATION_FAILED`, open **Project → Logs** on Vercel: the stack trace is usually a missing env var or a startup error.
+
+1. Connect the repo and deploy with the default NestJS settings (Vercel detects `src/main.ts`; use a recent [Vercel CLI](https://vercel.com/docs/cli) if you deploy from the terminal).
+2. In **Project → Settings → Environment Variables**, add every key from `.env.example` for **Production** (and Preview if you use preview deployments). `DATABASE_URL` is required: without it the app throws during boot when the DB module loads.
+3. Set `APP_URL` to your deployed origin (for example `https://<project>.vercel.app`) so auth email links point at production.
+4. After changing env vars, trigger a new deployment (redeploy) so functions pick them up.
+
 ## Swagger
 
 - UI: `http://localhost:3000/api/docs`

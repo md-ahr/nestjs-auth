@@ -5,7 +5,7 @@ import * as schema from './schema';
 const databaseUrl = process.env.DATABASE_URL;
 if (!databaseUrl) {
   throw new Error(
-    'DATABASE_URL is not set. Copy .env.example to .env and set DATABASE_URL (or export it before starting the app).',
+    'DATABASE_URL is not set. For local dev, copy .env.example to .env. On Vercel, add DATABASE_URL under Project → Settings → Environment Variables.',
   );
 }
 
