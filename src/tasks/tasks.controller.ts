@@ -12,6 +12,7 @@ import type { User } from 'src/db/schema';
 import { CurrentUser } from 'src/common/decorators/current-user.decorator';
 import { TasksService } from './tasks.service';
 import { CreateTaskDto } from './dto/create-task.dto';
+import { UpdateTaskDto } from './dto/update-task.dto';
 
 @ApiTags('Tasks')
 @ApiBearerAuth()
@@ -36,7 +37,7 @@ export class TasksController {
   async update(
     @CurrentUser() user: User,
     @Param('id') id: string,
-    @Body() dto: Partial<CreateTaskDto>,
+    @Body() dto: UpdateTaskDto,
   ) {
     return this.tasksService.update(id, user.id, dto);
   }
