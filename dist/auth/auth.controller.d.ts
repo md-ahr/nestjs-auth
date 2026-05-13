@@ -1,3 +1,4 @@
+import { ConfigService } from '@nestjs/config';
 import type { Request, Response } from 'express';
 import type { User } from "../db/schema";
 import { AuthService } from './auth.service';
@@ -7,7 +8,8 @@ import { ForgotPasswordDto } from './dto/forgot-password.dto';
 import { ResetPasswordDto } from './dto/reset-password.dto';
 export declare class AuthController {
     private readonly authService;
-    constructor(authService: AuthService);
+    private readonly config;
+    constructor(authService: AuthService, config: ConfigService);
     register(dto: RegisterDto): Promise<{
         message: string;
     }>;
@@ -30,6 +32,9 @@ export declare class AuthController {
             role: "user" | "admin";
         };
     }>;
+    googleAuth(): Promise<void>;
+    googleAuthRedirect(req: Request, res: Response): Promise<void>;
+    oauthSuccess(token: string, res: Response): void;
     refresh(req: Request, res: Response): Promise<{
         accessToken: string;
     }>;

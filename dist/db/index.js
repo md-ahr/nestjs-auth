@@ -39,7 +39,7 @@ const neon_http_1 = require("drizzle-orm/neon-http");
 const schema = __importStar(require("./schema"));
 const databaseUrl = process.env.DATABASE_URL;
 if (!databaseUrl) {
-    throw new Error('DATABASE_URL is not set. Copy .env.example to .env and set DATABASE_URL (or export it before starting the app).');
+    throw new Error('DATABASE_URL is not set. For local dev, copy .env.example to .env. On Vercel, add DATABASE_URL under Project → Settings → Environment Variables.');
 }
 const sql = (0, serverless_1.neon)(databaseUrl);
 exports.db = (0, neon_http_1.drizzle)(sql, { schema });

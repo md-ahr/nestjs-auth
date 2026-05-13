@@ -129,6 +129,49 @@ export class AuthService {
     };
   }
 
+  async loginWithGoogle(user: {
+    email: string;
+    firstName: string;
+    lastName: string;
+  }) {
+    const existingUser = await this.usersService.findByEmail(user.email);
+
+    if (!existingUser) {
+      const randomPassword = this.generatePassword();
+
+      const newUser = await this.usersService.create({
+        email: user.email,
+        name: `${user.firstName ?? ''} ${user.lastName ?? ''}`.trim(),
+        role: 'user',
+        passwordHash: randomPassword,
+      });
+
+      const tokens = await this.generateTokens(newUser);
+
+      return {
+        accessToken: tokens.accessToken,
+        user: {
+          id: newUser.id,
+          email: newUser.email,
+          name: newUser.name,
+          role: newUser.role,
+        },
+      };
+    }
+
+    const tokens = await this.generateTokens(existingUser);
+
+    return {
+      accessToken: tokens.accessToken,
+      user: {
+        id: existingUser.id,
+        email: existingUser.email,
+        name: existingUser.name,
+        role: existingUser.role,
+      },
+    };
+  }
+
   async refresh(refreshToken: string, res: Response) {
     if (!refreshToken) {
       throw new UnauthorizedException('No refresh token provided');
@@ -264,5 +307,18 @@ export class AuthService {
       sameSite: 'lax',
       maxAge: 7 * 24 * 60 * 60100, // 7 days
     });
+  }
+
+  private generatePassword(): string {
+    const length = 8;
+    const charset =
+      'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    let retVal = '';
+
+    for (let i = 0, n = charset.length; i < length; ++i) {
+      retVal += charset.charAt(Math.floor(Math.random() * n));
+    }
+
+    return retVal;
   }
 }

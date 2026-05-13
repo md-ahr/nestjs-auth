@@ -33,6 +33,19 @@ export declare class AuthService {
             role: "user" | "admin";
         };
     }>;
+    loginWithGoogle(user: {
+        email: string;
+        firstName: string;
+        lastName: string;
+    }): Promise<{
+        accessToken: string;
+        user: {
+            id: string;
+            email: string;
+            name: string;
+            role: "user" | "admin";
+        };
+    }>;
     refresh(refreshToken: string, res: Response): Promise<{
         accessToken: string;
     }>;
@@ -48,4 +61,5 @@ export declare class AuthService {
     private generateTokens;
     private saveRefreshToken;
     private setRefreshTokenCookie;
+    private generatePassword;
 }
